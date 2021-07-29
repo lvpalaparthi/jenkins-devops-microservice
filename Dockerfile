@@ -8,8 +8,9 @@
 
 
 #This is a sample Image 
-FROM ubuntu 
+FROM ubuntu:latest 
 LABEL maintainer="lvpalaparthi@gmail.com"
+EXPOSE 8000
 RUN apt-get update 
-RUN apt-get install –y nginx 
+RUN echo "hello world"
 CMD [“echo”,”Image created”] 

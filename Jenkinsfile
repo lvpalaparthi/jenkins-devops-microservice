@@ -1,16 +1,22 @@
 node {
+	def app
+	checkout scm
 	stage('build image'){
-			dockerfile { 
-				filename 'Dockerfile' 
-			}
+		app = docker.build("jenkinstest")
 	}
 
 	//dockerfile { filename 'Dockerfile' }
-	stage('Build') {
-		echo "Build"
+	stage('Test Image') {
+		app.inside{
+			echo "Tests passed"
+		}
 	}
-	stage('Test') {
-		sh 'node --version'
-		echo "Test"
+	stage('Push Image') {
+		docker.withRegistry('https://registry.hub.docker.com', 'lvp123'){
+		app.push("${env.BUILD_NUMBER}")
+        app.push("latest")
+		}
+		echo "Trying to Push Docker Build to DockerHub"
+
 	}
 }
