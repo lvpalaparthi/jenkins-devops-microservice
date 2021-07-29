@@ -1,5 +1,5 @@
 node {
-	agent{dockerfile true}
+	dockerfile { filename 'Dockerfile' }
 	stage('Build') {
 		echo "Build"
 	}
