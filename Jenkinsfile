@@ -12,11 +12,11 @@ node {
 		}
 	}
 	stage('Push Image') {
-		docker.withRegistry('https://registry.hub.docker.com', 'docker-hub'){
-		app.push("${env.BUILD_NUMBER}")
-        app.push("latest")
+		docker.withRegistry('https://registry.hub.docker.com', 'dockerHub'){
+		app.push()
 		}
 		echo "Trying to Push Docker Build to DockerHub"
 
 	}
 }
+
