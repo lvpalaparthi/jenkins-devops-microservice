@@ -2,7 +2,7 @@ node {
 	def app
 	checkout scm
 	stage('build image'){
-		app = docker.build("jenkinstest")
+		app = docker.build("lvp123/jenkinstest")
 	}
 
 	//dockerfile { filename 'Dockerfile' }
