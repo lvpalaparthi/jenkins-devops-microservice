@@ -1,4 +1,4 @@
-node("any") {
+node {
 	agent{dockerfile true}
 	stage('Build') {
 		echo "Build"
