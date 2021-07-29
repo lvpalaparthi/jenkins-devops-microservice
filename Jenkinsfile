@@ -1,5 +1,11 @@
 node {
-	dockerfile { filename 'Dockerfile' }
+	stage('build image'){
+			dockerfile { 
+				filename 'Dockerfile' 
+			}
+	}
+
+	//dockerfile { filename 'Dockerfile' }
 	stage('Build') {
 		echo "Build"
 	}
