@@ -3,8 +3,8 @@ import groovy.json.JsonSlurper
 import groovy.json.*
 
 def gitShortHash = ""
-def docker_registry = 'http://registry.rxcorp.com'
-def registry = "registry.rxcorp.com"
+def docker_registry = 'https://registry.hub.docker.com'
+def registry = "registry.hub.docker.com"
 def version = ""
 def image_path = env.JOB_NAME
 def docker_image = ""
