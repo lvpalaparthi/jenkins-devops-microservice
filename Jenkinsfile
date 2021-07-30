@@ -7,14 +7,14 @@ def docker_registry = 'http://registry.rxcorp.com'
 def image_path = env.JOB_NAME
 def docker_image = ""
 //def branch_name = ""
-def build_number = ""
+//def build_number = ""
 def appName = "bdfcloud"
 
 node {
 	def projectName = "bdfcloud"
 	checkout scm
-	branch_name = env.BRANCH_NAME.toLowerCase()
-	build_number = env.BUILD_ID
+	//branch_name = env.BRANCH_NAME.toLowerCase()
+	//build_number = env.BUILD_ID
 
 	// if(branch_name == "master"){
 	// 	print(image_path)
