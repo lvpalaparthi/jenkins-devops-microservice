@@ -44,7 +44,7 @@ node {
                 usernameVariable: 'lvp123',
                 passwordVariable: 'mypassword'
             )]) {
-                   sh "docker login registry.rxcorp.com -u ${username} -p ${password}"
+                   sh "docker login registry.hub.docker.com -u ${username} -p ${password}"
                 }
 		 withDockerContainer("lvp123/${image_path}:${version}"){
 			 checkout scm
