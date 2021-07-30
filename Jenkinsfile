@@ -33,12 +33,12 @@ node {
         docker_image = "${registry}/${image_path}:${version}"
 		print("Docker image: ${docker_image}")
 		docker.withRegistry(docker_registry, 'dockerHub'){
-            def dockerApp = docker.build("${image_path}:${version}")
+            def dockerApp = docker.build("lvp123/${image_path}:${version}")
             dockerApp.push()
         }
 	}
 
-	stage("Deploy App to ${ENV}") {
+	stage("Deploy App") {
 		withCredentials([usernamePassword(
                 credentialsId: "dockerHub",
                 usernameVariable: 'lvp123',
@@ -46,7 +46,7 @@ node {
             )]) {
                    sh "docker login registry.rxcorp.com -u ${username} -p ${password}"
                 }
-		 withDockerContainer("${docker_image}"){
+		 withDockerContainer("lvp123/${image_path}:${version}"){
 			 checkout scm
 			 echo "Working Docker Container from Jenkins!"
 		 }
