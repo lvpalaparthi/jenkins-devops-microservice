@@ -4,6 +4,8 @@ import groovy.json.*
 
 def gitShortHash = ""
 def docker_registry = 'http://registry.rxcorp.com'
+def registry = "registry.rxcorp.com"
+def version = ""
 def image_path = env.JOB_NAME
 def docker_image = ""
 //def branch_name = ""
@@ -19,11 +21,11 @@ node {
 	// if(branch_name == "master"){
 	// 	print(image_path)
 	// }
-
-	print(env)
-    stage("print env"){
-        sh 'printenv'
-    }
+	print(image_path)
+	// print(env)
+    // stage("print env"){
+    //     sh 'printenv'
+    // }
 
 	stage('build and push docker image'){
 		//version = "${branch_name}_${build_number}"
@@ -31,7 +33,7 @@ node {
         docker_image = "${registry}/${image_path}:${version}"
 		print("Docker image: ${docker_image}")
 		docker.withRegistry(docker_registry, 'dockerHub'){
-            def dockerApp = docker.build("${image_path}:${version}", "./target/docker/stage")
+            def dockerApp = docker.build("${image_path}:${version}")
             dockerApp.push()
         }
 	}
