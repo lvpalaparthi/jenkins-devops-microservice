@@ -6,7 +6,7 @@ def gitShortHash = ""
 def docker_registry = 'http://registry.rxcorp.com'
 def image_path = env.JOB_NAME
 def docker_image = ""
-#def branch_name = ""
+//def branch_name = ""
 def build_number = ""
 def appName = "bdfcloud"
 
