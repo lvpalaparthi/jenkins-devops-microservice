@@ -6,7 +6,7 @@ def gitShortHash = ""
 def docker_registry = 'http://registry.rxcorp.com'
 def image_path = env.JOB_NAME
 def docker_image = ""
-def branch_name = ""
+#def branch_name = ""
 def build_number = ""
 def appName = "bdfcloud"
 
@@ -16,9 +16,9 @@ node {
 	branch_name = env.BRANCH_NAME.toLowerCase()
 	build_number = env.BUILD_ID
 
-	if(branch_name == "master"){
-		print(image_path)
-	}
+	// if(branch_name == "master"){
+	// 	print(image_path)
+	// }
 
 	print(env)
     stage("print env"){
@@ -26,10 +26,11 @@ node {
     }
 
 	stage('build and push docker image'){
-		version = "${branch_name}_${build_number}"
+		//version = "${branch_name}_${build_number}"
+		version = "1.0"
         docker_image = "${registry}/${image_path}:${version}"
 		print("Docker image: ${docker_image}")
-		docker.withRegistry(docker_registry, 'cds-user'){
+		docker.withRegistry(docker_registry, 'dockerHub'){
             def dockerApp = docker.build("${image_path}:${version}", "./target/docker/stage")
             dockerApp.push()
         }
