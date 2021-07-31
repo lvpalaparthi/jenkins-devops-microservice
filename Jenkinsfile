@@ -22,10 +22,10 @@ node {
 	// 	print(image_path)
 	// }
 	print(image_path)
-	// print(env)
-    // stage("print env"){
-    //     sh 'printenv'
-    // }
+	print(env)
+    stage("print env"){
+        sh 'printenv'
+    }
 
 	stage('build and push docker image'){
 		//version = "${branch_name}_${build_number}"
@@ -41,12 +41,12 @@ node {
 	stage("Deploy App") {
 		withCredentials([usernamePassword(
                 credentialsId: "dockerHub",
-                usernameVariable: 'lvp123',
-                passwordVariable: 'mypassword'
+                usernameVariable: 'username',
+                passwordVariable: 'password'
             )]) {
                    sh "docker login registry.hub.docker.com -u ${username} -p ${password}"
                 }
-		 withDockerContainer("lvp123/${image_path}:${version}"){
+		 withDockerContainer("lvp123/jenkins-test:1.0"){
 			 checkout scm
 			 echo "Working Docker Container from Jenkins!"
 		 }
