@@ -1,79 +1,57 @@
-import groovy.transform.Field
-import groovy.json.JsonSlurper
-import groovy.json.*
-
-def gitShortHash = ""
-def docker_registry = 'https://registry.hub.docker.com'
-def registry = "registry.hub.docker.com"
-def version = ""
-def image_path = env.JOB_NAME
-def docker_image = ""
-//def branch_name = ""
-//def build_number = ""
-def appName = "bdfcloud"
-
-node {
-	def projectName = "bdfcloud"
-	checkout scm
-	//branch_name = env.BRANCH_NAME.toLowerCase()
-	//build_number = env.BUILD_ID
-
-	// if(branch_name == "master"){
-	// 	print(image_path)
-	// }
-	print(image_path)
-	print(env)
-    stage("print env"){
-        sh 'printenv'
-    }
-
-	stage('build and push docker image'){
-		//version = "${branch_name}_${build_number}"
-		version = "1.0"
-        docker_image = "${registry}/${image_path}:${version}"
-		print("Docker image: ${docker_image}")
-		docker.withRegistry(docker_registry, 'dockerHub'){
-            def dockerApp = docker.build("lvp123/${image_path}:${version}")
-            dockerApp.push()
-        }
-	}
-
-	stage("Deploy App") {
-		withCredentials([usernamePassword(
-                credentialsId: "dockerHub",
-                usernameVariable: 'username',
-                passwordVariable: 'password'
-            )]) {
-                   sh "docker login registry.hub.docker.com -u ${username} -p ${password}"
-                }
-		 withDockerContainer("lvp123/jenkins-test:1.0"){
-			 checkout scm
-			 echo "Working Docker Container from Jenkins!"
-		 }
+String ENV = ENV
+class Config{
+	static envForTest = [
+		'dev' : 'testdev',
+		'uacc' : 'testuacc',
+		'intg' : 'testintg',
+		'prod' : 'testprod',
+		'test' : 'testshard'
+	]
+}
+node{
+	stage('test'){
+		 sh "echo ${ENV}"
+		 sh "echo ${Config.envForTest.get(ENV)}"
+		 sh "echo ${Config.envForTest.get(env.ENV)}"
 
 	}
 }
 
-
-
 // node {
-// 	def app
-// 	checkout scm
-// 	stage('build image'){
-// 		app = docker.build("lvp123/jenkinstest")
+// 	stage('build and push docker image'){
+// 		docker.withRegistry('http://registry.hub.docker.com', 'dockerHub'){
+//             def dockerApp = docker.build("lvp123/${image_path}:${version}")
+//             dockerApp.push()
+//         }
 // 	}
+// 	stage("Deploy App") {
+// 		withCredentials([usernamePassword(
+//                 credentialsId: "dockerHub",
+//                 usernameVariable: 'username',
+//                 passwordVariable: 'password'
+//             )]) {
+//                    sh "docker login registry.hub.docker.com -u ${username} -p ${password}"
+//                 }
+// 		 withDockerContainer("lvp123/jenkins-test:1.0"){
+// 			 checkout scm
+// 			 echo "Working Docker Container from Jenkins!"
+// 			 sh "ls -la"
+// 			 sh "pwd"
+// 		 }
 
-// 	//dockerfile { filename 'Dockerfile' }
-// 	stage('Test Image') {
-// 		app.inside{
-// 			echo "Tests passed"
-// 		}
 // 	}
-// 	stage('Push Image') {
-// 		docker.withRegistry('https://registry.hub.docker.com', 'dockerHub'){
-// 		app.push()
-// 		}
-// 		echo "Trying to Push Docker Build to DockerHub"
+// }
 
-// 	}
+
+// node{
+//     stage("Deploy App") {
+// 		steps{
+// 			def dockerImage = docker.build("lvp123/test:latest")
+// 		}
+//        withDockerContainer("lvp123/test:latest"){
+// 		   sh "docker run -d -t --name bdf-cloud-test lvp123/test:latest"
+//            sh "ls -la"
+//            sh "pwd"
+//        }
+//     }
 // }

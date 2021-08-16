@@ -8,9 +8,9 @@
 
 
 #This is a sample Image 
-FROM ubuntu:latest 
-LABEL maintainer="lvpalaparthi@gmail.com"
-EXPOSE 8000
-RUN apt-get update 
-RUN echo "hello world"
-CMD [“echo”,”Image created”] 
+# FROM ubuntu:latest 
+# LABEL maintainer="lvpalaparthi@gmail.com"
+# EXPOSE 8000
+# RUN apt-get update 
+# RUN echo "hello world"
+# CMD [“echo”,”Image created”] 
